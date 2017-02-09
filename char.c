@@ -10,10 +10,8 @@ main()
             输出该字符;
             读下一个字符;
     */
-    c = getchar();
-    while (c != EOF) {
+    while ((c = getchar()) != EOF) {
         putchar(c);
-        c = getchar();
     }
 }
 
