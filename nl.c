@@ -11,7 +11,7 @@ main()
             如果 if (getchar() != '\n')
             会循环调用 getchar()
        */
-        if (c != '\n')
+        if (c == '\n')
             ++nl;
     }
     printf("%d\n", nl);
