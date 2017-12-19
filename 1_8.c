@@ -7,21 +7,13 @@
 main()
 {
     int c, ns, nt, nl;
-
-    ns = 0;
-    nt = 0;
-    nl = 0;
-    /*
-        记住用 {}
-        否则只有第一个 if 语句会被包含在
-        while-loop 里面
-    */
+    ns = nt = nl = 0;
     while ((c = getchar()) != EOF) { 
         if (c == ' ')
             ++ns;
-        if (c == '\t')
+        else if (c == '\t')
             ++nt;
-        if (c == '\n')
+        else if (c == '\n')
             ++nl;
     }
     printf("The number of spaces is %d\n", ns);
