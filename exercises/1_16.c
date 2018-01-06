@@ -12,9 +12,10 @@ int main()
     char longest[MAXLINE];
 
     max = 0;
-    while ((len = readline(line) > 0)) {
+    while ((len = readline(line)) > 0) {
         if (len > max) {
             max = len;
+            printf("max is %d\n", max);
             copy(longest, line);
         }
     }
@@ -23,27 +24,30 @@ int main()
     return 0;
 }
 
+/* 接收一个字符数组
+ * 返回它的长度
+ */
 int readline(char s[])
 {
     int c, i;
+    // 如果不赋值, i 会 overflow
+    i = 0;
 
-    for (i = 0;(c = getchar()) != EOF && c != '\n'; ++i) {
-        s[i] = c;
+    while ((c=getchar()) != EOF && c != '\n') {
+        s[i++] = c;
     }
     if (c == '\n') {
-        s[i] = c;
-        ++i;
+        s[i++] = c;
     }
     s[i] = '\0';
+    printf("i is %d\n", i);
     return i;
 }
 
 void copy(char to[], char from[])
 {
-    int i;
+    int i = 0;
 
-    i = 0;
-    while ((to[i] = from[i]) != '\0') {
+    while ((to[i] = from[i]) != '\0')
         ++i;
-    }
 }

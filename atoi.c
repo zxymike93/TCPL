@@ -31,5 +31,3 @@ int atoi2(char s[])
         n = 10 * n + (s[i] - '0');
     return n;
 }
-
-int main() {}

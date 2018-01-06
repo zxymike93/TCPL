@@ -3,5 +3,5 @@
 int main()
 
 {
-    printf("hello, world!\n");    /* "hello, world!\n" 作为参数调用 printf() 函数 */
+    printf("hello, world!\n\c");    /* "hello, world!\n" 作为参数调用 printf() 函数 */
 }
