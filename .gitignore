@@ -1,3 +1,6 @@
+#
+outputs/
+
 # Object files
 *.o
 *.ko
