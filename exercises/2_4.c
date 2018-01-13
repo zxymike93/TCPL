@@ -1,22 +1,17 @@
 #include <stdio.h>
 
-/* declair a function */
+// delete all characters, that match one in c, of s.
 void squeeze(char s[], char c[]);
-
 
 int main()
 {
-    char s[10] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'};
-    char c[4] = "helo";
+    char s[] = {'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'};
+    char c[] = "helo";
+
     squeeze(s, c);
-
-    int i;
-    for (i = 0; s[i] != '\0'; ++i)
-        printf("%c\n", s[i]);
-
+    printf("%s\n", s);
     return 0;
 }
-
 
 void squeeze(char s[], char c[])
 {
