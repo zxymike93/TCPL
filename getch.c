@@ -10,10 +10,10 @@ int getch(void)
     return (bufp > 0) ? buf[--bufp] : getchar();
 }
 
-int ungetch(int c)
+void ungetch(int c)
 {
     if (bufp >= BUFFSIZE)
-        printf("ungetch: 太多字符了\n");
+        printf("ungetch: 超过buf[]的容量\n");
     else
         buf[bufp++] = c;
 }
