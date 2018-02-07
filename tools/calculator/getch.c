@@ -13,7 +13,7 @@ int getch(void)
 void ungetch(int c)
 {
     if (bufp >= BUFFSIZE)
-        printf("ungetch: 超过buf[]的容量\n");
+        printf("ungetch: too many chars\n");
     else
         buf[bufp++] = c;
 }

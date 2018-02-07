@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <math.h>
 
 
 #define MAXOP 100
@@ -9,12 +10,12 @@
 int getop(char []);
 void push(double);
 double pop(void);
-
+void empty(void);
 
 int main()
 {
     int type;
-    double op2;
+    double op, op2;
     char s[MAXOP];
 
     while ((type = getop(s)) != EOF) {
@@ -30,19 +31,45 @@ int main()
             break;
         case '-':
             op2 = pop();
-            push(pop() * op2);
+            push(pop() - op2);
             break;
         case '/':
             op2 = pop();
             if (op2 != 0.0)
                 push(pop() / op2);
             else
-                printf("error: 除数不能等于0\n");
+                printf("error: cannot divide zero\n");
+            break;
+        case '%':
+            op2 = pop();
+            if (op2 != 0.0)
+                push(fmod(pop(), op2));
+            else
+                printf("error: cannot mod zero\n");
+            break;
+        case 'p':
+            op2 = pop();
+            push(op2);
+            break;
+        case 'c':
+            op2 = pop();
+            push(op2);
+            push(op2);
+            break;
+        case 's':
+            op2 = pop();
+            op = pop();
+            push(op2);
+            push(op);
+            break;
+        case 'e':
+            empty();
             break;
         case '\n':
-            printf("\t%.8\n", pop());
+            printf(">>> %.8g\n", pop());
+            break;
         default:
-            printf("error: 不支持+-*/以外的操作%s\n", s);
+            printf("error: operator not supported");
             break;
         }
     }
@@ -52,15 +79,15 @@ int main()
 
 #define MAXVAL 100
 
-int sp = 0;
-double val[MAXVAL];
+int sp = 0;             // stack pointer
+double val[MAXVAL];     // stack
 
 void push(double f)
 {
     if (sp < MAXVAL)
         val[sp++] = f;
     else
-        printf("error: 栈满了，不能堆放\n", f);
+        printf("push: stack is full\n");
 }
 
 double pop(void)
@@ -68,33 +95,57 @@ double pop(void)
     if (sp > 0)
         return val[--sp];
     else {
-        printf("error: 栈是空的\n");
+        printf("pop: stack empty\n");
         return 0.0;
     }
 }
 
+void empty(void)
+{
+    sp = 0;
+}
+
+
 int getch(void);
 void ungetch(int);
 
+// get next num / op from stack
 int getop(char s[])
 {
     int i, c;
+    i = 0;
 
+    // not number
     while ((s[0] = c = getch()) == ' ' || c == '\t')
         ;
     s[1] = '\0';
-    if (!isdigit(c) && c != '.')
+
+    if (!isdigit(c) && c != '.' && c != '-')
         return c;
-    i = 0;
-    if (isdigit(c))
+
+    if (c == '-') {
+        if (isdigit((c = getch())) || c == '.')
+            s[++i] = c;
+        else {
+            if (c != EOF)
+                ungetch(c);
+            return '-';
+        }
+    }
+
+    if (isdigit(c)) {
         while (isdigit(s[++i] = c = getch()))
             ;
-    if (c == '.')
+    }
+    if (c == '.') {
         while (isdigit(s[++i] = c = getch()))
             ;
+    }
     s[i] = '\0';
+
     if (c != EOF)
         ungetch(c);
+
     return NUMBER;
 }
 
@@ -108,10 +159,10 @@ int getch(void)
     return (bufp > 0) ? buf[--bufp] : getchar();
 }
 
-int ungetch(int c)
+void ungetch(int c)
 {
     if (bufp >= BUFFSIZE)
-        printf("ungetch: 太多字符了\n");
+        printf("ungetch: too many chars\n");
     else
         buf[bufp++] = c;
 }
