@@ -1,7 +1,8 @@
 void reverse(char s[])
 {
-    int i, j = 0;
-    char temp;
+    int i, j;
+    char temp
+    i = j = 0;
 
     while (s[i] != '\0')
         ++i;

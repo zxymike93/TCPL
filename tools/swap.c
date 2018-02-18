@@ -9,7 +9,6 @@
  * 因为 x, y 是 a, b 的副本
  *
  */
-
 void swap_1(int x, int y)
 {
     int temp;
