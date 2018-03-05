@@ -1,7 +1,5 @@
-#
-outputs/
-
 # Object files
+outputs/
 *.o
 *.ko
 *.obj

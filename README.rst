@@ -4,7 +4,7 @@ The C Programming Language
 - 导言
 - 类型、运算符、表达式
 - 控制流
-- 函数与程序结构
+- :ref:`函数与程序结构 <function-and-program-structure>`
     - 函数的基本知识
     - 返回非整型值的函数
     - 外部变量
@@ -13,13 +13,13 @@ The C Programming Language
     - 静态变量
     - 寄存器变量
     - 程序块结构
-    - :ref:`初始化 <initialization>`
+    - 初始化
     - 递归
-    - C 预处理器
+    - C预处理器
         - 文件包含
         - 宏替换
         - 条件包含
-- 指针与数组
+- :ref:`指针与数组 <pointer-and-array>`
     - 指针与地址
     - 指针与函数参数
     - 指针与数组
