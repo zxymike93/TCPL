@@ -35,7 +35,7 @@ definition 则引起存储器分配, 以及实现函数等.
 4.7 寄存器变量
 ------------
 
-`register` 声明某个变量，目的在于：认为它的使用频次较高，告诉编译器保存在寄存器中, 只允许两种使用方式:
+``register`` 声明某个变量，目的在于：认为它的使用频次较高，告诉编译器保存在寄存器中, 只允许两种使用方式:
 
 .. code-block:: c
 
@@ -53,13 +53,14 @@ definition 则引起存储器分配, 以及实现函数等.
 ---------
 
 不显式初始化的情况下：
+
     - 外部变量 == 0
     - static == 0
     - 自动变量 (undefined)
     - register (undefined)
 
-**造成本人多次得到 `segmenfaultation` 的报错，debug 半天无法定位。**
-**因此建议：声明自动变量(也许还有 register)的时候，自觉初始化。**
+造成本人多次得到 ``segmenfaultation`` 的报错，debug 半天无法定位。  因此建议:
+*声明自动变量(也许还有 register)的时候，自觉初始化.*
 
 初始化 外部变量 / 静态变量 必须使用常量表达式，程序执行前被初始化:
 
@@ -128,11 +129,12 @@ function 可以调用自身:
     #include <filename>     // 使用编译器 include 的路径
     #include "filename"     // 使用源文件的相对路径
 
-如果用 gcc 的话，可以自定义 include 的路径:
+可以自定义 ``#include`` 的路径:
 
 .. code-block:: console
 
     $ gcc -v include_path hello.c
+    $ clang -I include_path hello.c
 
 这样就可以使用代码根目录组织头文件:
 
@@ -166,21 +168,21 @@ function 可以调用自身:
 
     printf("x/y = %g\n", x/y);
 
-如果不是表达式 `x/y` 而是 `x * y`，整个 `printf` 就要修改。如果使用宏的方式，可以这样做:
+如果不是表达式 ``x / y`` 而是 ``x * y``，整个 ``printf`` 就要修改。如果使用宏的方式，可以这样做:
 
 .. code-block:: c
 
     #define dprintf(expr) printf(#expr " = %g\n", expr)
 
     dprintf(x/y);
-    >> printf("x/y" " = %g\n", x/y);
-    >> printf("x/y = %g\n", x/y);
+    >>> printf("x/y" " = %g\n", x/y);
+    >>> printf("x/y = %g\n", x/y);
 
     dprintf(x * y);
-    >> printf("x/y" " = %g\n", x*y);
-    >> printf("x/y = %g\n", x*y);
+    >>> printf("x/y" " = %g\n", x*y);
+    >>> printf("x/y = %g\n", x*y);
 
-这里面的 `#expr` 被替换为 `"expr"`。
+这里面的 ``#expr`` 被替换为 ``"expr"``。
 
 另外宏还可以连接两个实参:
 

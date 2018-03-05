@@ -1,5 +1,6 @@
 #include <stdio.h>
-#include "getint.c"
+#include <tools/calculator/calc.h>
+#include <tools/getint.c>
 
 int main()
 {

@@ -1,24 +1,27 @@
 #include <ctype.h>
-#include "getch.c"
+#include "tools/calculator/calc.h"
 
+
+int getch(void);
+void ungetch(int);
+
+
+// 将输入中的下一个值赋给 *pn
 int getint(int *pn)
 {
     int c, sign;
-    // skip space
-    while (isspace(c=getch()))
+
+    while (isspace(c = getch()))
         ;
-    // starts with not number
     if (!isdigit(c) && c != EOF && c != '+' && c != '-') {
         ungetch(c);
         return 0;
     }
-    // positive or negative
     sign = (c == '-') ? -1 : 1;
-    if (c == '-' || c == '+')
+    if (c == '+' || c == '-')
         c = getch();
-    // digits
     for (*pn = 0; isdigit(c); c = getch())
-        *pn = *pn * 10 + (c - '0');
+        *pn = 10 * *pn + (c - '0');
     *pn *= sign;
     if (c != EOF)
         ungetch(c);
