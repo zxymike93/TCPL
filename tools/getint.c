@@ -1,5 +1,5 @@
 #include <ctype.h>
-#include "tools/calculator/calc.h"
+#include <tools/calculator/calc.h>
 
 
 int getch(void);

@@ -18,6 +18,12 @@ definition 则引起存储器分配, 以及实现函数等.
 4.5 头文件
 ---------
 
+该节例子中的程序要同时编译多文件:
+
+.. code-block:: console
+
+    $ clang main.c mathfn.c stack.c getch.c getop.c
+
 -----------
 4.6 静态变量
 -----------
@@ -124,24 +130,32 @@ function 可以调用自身:
 4.11.1 文件包含
 ~~~~~~~~~~~~~~
 
+``#include`` 有两种用法:
+
 .. code-block:: c
 
     #include <filename>     // 使用编译器 include 的路径
-    #include "filename"     // 使用源文件的相对路径
+    #include "../filename"     // 使用源文件的相对路径
 
-可以自定义 ``#include`` 的路径:
+一般 C 的标准库头文件都是用 ``<>`` 引入, 因为它们在编译器默认的 include 路径中, 比如:
 
-.. code-block:: console
+.. code-block:: rest
 
-    $ gcc -v include_path hello.c
-    $ clang -I include_path hello.c
+    /usr/include/stdio.h
 
-这样就可以使用代码根目录组织头文件:
+我们可以通过编译器选项添加路径, 比如下面几个源代码:
 
 .. code-block:: c
 
-    #include <utils/log.h>
-    #include <data/whatever.h>
+    // test_getint.c
+    #include <tools/calculator/calc.h>
+    #include <tools/getint.c>
+
+添加项目根目录 ``~/TCPL/``, 使用如下命令编译:
+
+.. code-block:: console
+
+    $ clang -I ./ -v -o outputs/test_getint tests/test_getint.c tools/calculator/getch.c
 
 ~~~~~~~~~~~~
 4.11.2 宏替换
