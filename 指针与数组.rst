@@ -79,3 +79,92 @@ long 4 bytes.  指针也是变量, 它一般是 2 | 4 bytes.
     // a = &x, b = &y;
 
 就可以影响到实参本身.
+
+.. todo::
+    getint / getfloat
+
+---------
+指针与数组
+---------
+
+C 语言中, 指针几乎可以当数组下标使用. 但是对于编程新手, 或者没接触过指针的程序员来说,
+指针很绕.
+
+.. code-block:: c
+
+    #include <stdio.h>
+
+    int main() {
+        int x;
+        int a[5] = {0, 1, 2, 3, 4};
+        int i;
+
+        i = 0;
+        x = a[i];
+        printf("x = %d = a[0]\n", x);
+
+        i = 3;
+        x = a[i];
+        printf("x = %d = a[3]\n", x);
+
+        i++;
+        x = a[i];
+        printf("x = %d = a[4]\n", x);
+    }
+
+    >>> x = 0 = a[0]
+    >>> x = 3 = a[3]
+    >>> x = 4 = a[4]
+
+类似地, 我们再下一个例子:
+
+.. code-block:: c
+
+    #include <stdio.h>
+
+    int main() {
+        int x;
+        int a[5] = {0, 1, 2, 3, 4};
+        int *pa;
+
+        pa = a;
+        x = *pa;
+        printf("x = %d = a[0]\n", x);
+
+        pa = &a[3];
+        x = *pa;
+        printf("x = %d = a[3]\n", x);
+
+        pa++;
+        x = *pa;
+        printf("x = %d = a[4]\n", x);
+    }
+
+对应的我们可以看到:
+
+- ``<pointer> = &array[index]`` 相当于 ``i = index``
+- ``x = *<pointer>`` 相当于 ``x = array[index]``
+- ``<pointer>++`` 相当于 ``<index>++``
+- ``<pointer> = array`` 相当于 ``<pointer> = &array[0]``
+
+这样不难发现, 当指针指向数组(因为缺省值为 0 (所以严格来说是指向数组中的元素)), 指针很显然
+可以当下标来使用. 因此我们可以看下面操作:
+
+.. code-block:: c
+
+    #include <stdio.h>
+
+    int main() {
+        int i;
+        int a[5];
+        int *pa;
+
+        pa = a;
+        for (i = 0; i < 5; i++, pa++)
+            *pa = i;
+
+        for (i = 0; i < 5; i++)
+            printf("%d\n", a[i]);
+    }
+
+直接使用 ``*<pointer> = ...`` 赋值, 相当于 ``array[index] = ...`` .

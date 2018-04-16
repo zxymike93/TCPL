@@ -4,7 +4,7 @@ The C Programming Language
 - 导言
 - 类型、运算符、表达式
 - 控制流
-- :ref:`函数与程序结构 <function-and-program-structure>`
+- `函数与程序结构 <https://github.com/gayu-mike/TCPL/blob/master/%E5%87%BD%E6%95%B0%E4%B8%8E%E7%A8%8B%E5%BA%8F%E7%BB%93%E6%9E%84.rst>`_
     - 函数的基本知识
     - 返回非整型值的函数
     - 外部变量
@@ -19,7 +19,7 @@ The C Programming Language
         - 文件包含
         - 宏替换
         - 条件包含
-- :ref:`指针与数组 <pointer-and-array>`
+- `指针与数组 <https://github.com/gayu-mike/TCPL/blob/master/%E6%8C%87%E9%92%88%E4%B8%8E%E6%95%B0%E7%BB%84.rst>`_
     - 指针与地址
     - 指针与函数参数
     - 指针与数组
