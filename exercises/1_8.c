@@ -4,7 +4,7 @@
     统计空格、制表、换行符的程序
 */
 
-main()
+int main()
 {
     int c, ns, nt, nl;
     ns = nt = nl = 0;
