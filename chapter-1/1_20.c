@@ -7,32 +7,37 @@
 // \t 的长度也是4
 
 #include <stdio.h>
+
 #define TAB 4
 
 int main()
 {
-    int c, nblank, pos;
-    nblank = 0;
-    pos = 1;    // 光标位置，比字符数多1
+        int c, nblank, pos;
 
-    while ((c = getchar()) != EOF) {
-        if (c == '\t') {
-            nblank = TAB - ((pos-1) % TAB);
-            while (nblank > 0) {
-                putchar(' ');
-                ++pos;
-                --nblank;
-            }
+        nblank = 0;
+        // 光标位置，比字符数多1
+        pos = 1;
+
+        while ((c = getchar()) != EOF) {
+                if (c == '\t') {
+                        // smart detab
+                        nblank = TAB - ((pos - 1) % TAB);
+                        while (nblank > 0) {
+                                // replace "space" with _
+                                putchar('_');
+                                ++pos;
+                                --nblank;
+                        }
+                } else if (c == '\n') {
+                        // 换行、重置光标位置
+                        putchar(c);
+                        pos = 1; 
+                } else {
+                        // 输出、移动光标
+                        putchar(c);
+                        ++pos;
+                }
         }
-        else if (c == '\n') {
-            printf("\nlength: %d\n", pos-1);
-            putchar(c);
-            pos = 1; 
-        }
-        else {
-            putchar(c);
-            ++pos;
-        }
-    }
-    return 0;
+
+        return 0;
 }
