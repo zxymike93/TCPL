@@ -37,6 +37,8 @@ int readlines(char *lines[])
         while ((len = readline(line)) > 0) {
                 copystring(s, line);
                 lines[i] = s;
+                // 在内存中创建 len bytes 的空间, 返回这个空间地址
+                // s = malloc(size) 实际上等于创建新的指针, 但重用了变量名 s
                 s = malloc(len);
                 printf("strcp~s: %s\n", s);
                 printf("lines: 1%s 2%s\n", lines[0], lines[1]);

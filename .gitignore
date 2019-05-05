@@ -1,3 +1,7 @@
+# Other files
+.vscode/
+.DS_Store
+
 # Object files
 outputs/
 *.o
