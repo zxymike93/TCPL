@@ -1,143 +1,146 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
-#define MAX 100
+#define MAX 1000
+#define STORAGE 500
 
-int getaline(char *line, int maxline)
+int readline(char line[], int max)
 {
-        int c, len = 0;
-        while (len < maxline) {
-                c = getchar();
-                if (c == EOF) {
-                        return len;
-                } else if (c == '\n') {
-                        *line = '\0';
-                        len++;
-                        return len;
+        int len;
+        char c;
+
+        for (len = 0; (c = getchar()) != EOF;) {
+                if (len > max) {
+                        printf("READLINE: too long.\n");
                 } else {
-                        *line = c;
-                        line++;
+                        line[len] = c;
                         len++;
+                        if (c == '\n') {
+                                break;
+                        }
                 }
         }
 
         return len;
 }
 
-int getlines(char *lines[], int maxlines)
+// 从 stdin 读取句子, 每句以 \n 结尾
+// 并保存在参数 lines 中, 且最多不超过 max 行
+int readlines(char *lines[], int maxline, char *store, int maxstore)
 {
-        int len, i;
-        char *s, line[MAX];
+        int len, n;
+        char line[MAX];
+        char *tmp = store;
+        char *endstore = store + maxstore;
 
-        len = i = 0;
-        while (i < maxlines) {
-                len = getaline(line, MAX);
-                if (len > 0) {
-                        strcpy(s, line);
-                        lines[i] = s;
-                        i++;
-                        s += len;
-                } else if (len == 0) {
-                        return i;
-                } else {
+        len = n = 0;
+        while ((len = readline(line, MAX)) > 0) {
+                // if (n > max || (tmp = malloc(len)) == NULL) {
+                //         return -1;
+                // } else {
+                //         line[len-1] = '\0';
+                //         strcpy(tmp, line);
+                //         lines[n] = tmp;
+                //         n++;
+                // }
+                if (n > maxline || tmp + len > endstore) {
                         return -1;
+                } else {
+                        line[len-1] = '\0';
+                        strcpy(tmp, line);
+                        lines[n] = tmp;
+                        n++;
+                        tmp += len;
                 }
+
         }
 
-        return i;
+        return n;
 }
 
-void printlines(char *lines[], int n)
+void writelines(char *lines[], int n)
 {
         int i;
-        for (i = 0; i < n; i++) {
+        for (i = 0; i < n; i++)
                 printf("[%d] %s\n", i, lines[i]);
-        }
 }
 
-int getpart(int x, int y)
+void swap(char *v[], int n, int m)
 {
-        return (x + y) / 2;
+        char *tmp;
+
+        tmp = v[n];
+        v[n] = v[m];
+        v[m] = tmp;
 }
 
-// char *create_empty_lines(char *l, int max)
-// {
-//         int i;
-//         for (i = 0; i < max; i++)
-//                 l[i] = "";
-// }
-
-void sortlines(char *lines[], int start, int end)
+void sortlines(char *lines[], int left, int right)
 {
-        if (start >= end)
+        if (left >= right)
                 return;
+        
+        swap(lines, left, (left + right) / 2);
+        // 记录一个点 pivot, 该点就是 mid 排序后的正确下标
+        int p = left;
 
-        char *smaller[MAX];
-        int ps;
-        for (ps = 0; ps < MAX; ps++)
-                smaller[ps] = "";
-
-        char *larger[MAX];
-        int pl;
-        for (pl = 0; pl < MAX; pl++)
-                larger[pl] = "";
-
-        int mid = (start + end) / 2;
-        char *partition = lines[mid];
-        int i, r;
-        for (ps = pl = 0, i = start; i <= end; i++) {
-                r = strcmp(lines[i], lines[mid]);
-                if (r < 0) {
-                        smaller[ps] = lines[i];
-                        ps++;
-                } else if (r > 0) {
-                        larger[pl] = lines[i];
-                        pl++;
-                } else {
-                        ;
+        int i;
+        for (i = left + 1; i <= right; i++) {
+                if (strcmp(lines[i], lines[left]) < 0) {
+                        p++;
+                        swap(lines, p, i);
                 }
         }
+        swap(lines, left, p);
 
-        for (i = start, ps = 0; smaller[ps] != ""; ps++, i++)
-                lines[i] = smaller[ps];
-
-        lines[i] = partition;
-        int p = i;
-        i++;
-
-for (pl = 0; larger[pl] != ""; pl++, i++)
-                lines[i] = larger[pl];
-
-        printf("start end: %d %d\n", start, end);
-        sortlines(lines, start, p - 1);
-        sortlines(lines, p, end);
+        sortlines(lines, left, p - 1);
+        sortlines(lines, p + 1, right);
 }
 
 int main()
 {
-        // char *lines[MAX];
+        char *lines[MAX];
+        char addr[MAX];
 
-        // int nlines = getlines(lines, MAX);
-        // if (nlines > 0) {
-        //         // sortlines(lines, nlines);
-        //         printlines(lines, nlines);
-        //         return 1;
-        // } else {
-        //         return -1;
-        // }
-        int test_sort();
-        test_sort();
+        //int nlines = readlines(lines, MAX);
+        int nlines = readlines(lines, MAX, addr, MAX);
+        if (nlines >= 0) {
+                sortlines(lines, 0, nlines-1);
+                writelines(lines, nlines);
+                return 0;
+        } else {
+                return 1;
+        }
+
+        // Tests
+        // int test_readline();
+        // test_readline();
+        // int test_readlines();
+        // test_readlines();
+        // int test_sortlines();
+        // test_sortlines();
+}
+
+int test_readline() {
+        char s[100];
+        printf("TEST READLINE: %d", readline(s, 100));
         return 0;
 }
 
-int test_sort()
+int test_readlines() {
+        char *s[100];
+        //printf("TEST READLINES: %d\n", readlines(s, 100));
+        return 0;
+}
+
+int test_sortlines()
 {
         char *s[] = {"10", "80", "30", "90", "40", "50", "70"};
         sortlines(s, 0, 6);
 
         int i;
         for (i = 0; i < 7; i++) {
-                printf("%s\n", s[i]);
+                printf("TEST SORTLINES: %s\n", s[i]);
         }
         return 0;
 }
